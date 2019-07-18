@@ -6,10 +6,17 @@ class Book extends Component {
   }
   render() {
     const { book } = this.props
+    const style = {
+      width: 128,
+      height: 193
+    }
+    if (book.imageLinks) {
+      style.backgroundImage = `url(${book.imageLinks.thumbnail})`
+    }
     return (
       <div className="book">
         <div className="book-top">
-          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
+          <div className="book-cover" style={style}></div>
           <div className="book-shelf-changer">
             <select defaultValue={book.shelf} onChange={this.handleChange}>
               <option value="move" disabled>Move to...</option>
@@ -21,7 +28,11 @@ class Book extends Component {
           </div>
         </div>
         <div className="book-title">{book.title}</div>
-        <div className="book-authors">{book.authors[0]}</div>
+        {book.authors &&
+          <div className="book-authors">
+            {book.authors.map(author => (<span key={author}>{author} <br /></span>))}
+          </div>
+        }
       </div>
     )
   }
